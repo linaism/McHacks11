@@ -4,6 +4,8 @@ import threading
 import pyttsx3
 
 r = sr.Recognizer()
+pygame.mixer.init()
+
 
 def play_mp3(file_path):
     pygame.mixer.init()
@@ -11,6 +13,7 @@ def play_mp3(file_path):
     pygame.mixer.music.play()
 
 def play_voice(text):
+    pygame.quit()
     engine = pyttsx3.init()
     newVoiceRate = 160
     engine.setProperty('rate',newVoiceRate)
@@ -23,7 +26,12 @@ def greet():
 
 def farewell():
     print("Goodbye! Have a great day!")
+    pygame.quit()
     exit()
+
+def play_audio(file_path):
+    print(f"Playing {file_path}...")
+    threading.Thread(target=play_mp3, args=(file_path,)).start()
     
 def failure():
     print("Playing failure tone...")
@@ -37,6 +45,10 @@ def mansplain():
     print("Mansplaining...")
     threading.Thread(target=play_voice, args=("Actually",)).start()
     
+def happy():
+    print("Playing happy music...")
+    threading.Thread(target=play_mp3, args=("happy.mp3",)).start()
+    
 keywords_to_functions = {
     "hello": greet,
     "goodbye": farewell,
@@ -45,15 +57,25 @@ keywords_to_functions = {
     "gloomy": scary,
     "dark": scary,
     "barbie": mansplain,
-    
+    "happy": happy,
+    "cheerful": happy,
+    "bright": happy,
+    "sunny": happy,
+    "sunshine": happy,
+    "sun": happy,
+    "fun": happy,
+    "joy": happy,
+    "joyful": happy,
+    "once upon a time": happy,
+    "giraffe": scary,
+    "wrong": scary
 }
 
-# Function to listen to the microphone and trigger functions
 def listen_and_trigger():
     while True:
         with sr.Microphone() as source:
             print("Listening...")
-            audio = r.listen(source)
+            audio = r.listen(source, timeout=3, phrase_time_limit=3)
 
         try:
             print("Processing...")
@@ -68,5 +90,8 @@ def listen_and_trigger():
             print("Unable to recognize speech.")
         except sr.RequestError as e:
             print("Error occurred:", str(e))
+        # timeout passed, listen again
+        except sr.WaitTimeoutError:
+            pass
 
 listen_and_trigger()
