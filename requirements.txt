@@ -4,3 +4,5 @@ numpy
 tensorflow
 seaborn
 matplotlib
+speechrecognition
+pygame
