@@ -14,15 +14,24 @@ def greet():
 
 def farewell():
     print("Goodbye! Have a great day!")
+    exit()
     
 def failure():
-    print("I'm sorry to hear that. I hope you have a better day tomorrow.")
+    print("Playing failure tone...")
     threading.Thread(target=play_mp3, args=("failed.mp3",)).start()
+    
+def scary():
+    print("Playing scary music...")
+    threading.Thread(target=play_mp3, args=("scary.mp3",)).start()
     
 keywords_to_functions = {
     "hello": greet,
     "goodbye": farewell,
     "failed": failure,
+    "scary": scary,
+    "gloomy": scary,
+    "dark": scary,
+    
 }
 
 # Function to listen to the microphone and trigger functions
