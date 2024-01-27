@@ -1,5 +1,6 @@
 import speech_recognition as sr
 import pygame
+import threading
 
 r = sr.Recognizer()
 
@@ -7,10 +8,6 @@ def play_mp3(file_path):
     pygame.mixer.init()
     pygame.mixer.music.load(file_path)
     pygame.mixer.music.play()
-
-    # Keep the script running until the music stops
-    while pygame.mixer.music.get_busy(): 
-        pygame.time.Clock().tick(10)
 
 def greet():
     print("Hello there! How can I assist you?")
@@ -20,7 +17,7 @@ def farewell():
     
 def failure():
     print("I'm sorry to hear that. I hope you have a better day tomorrow.")
-    play_mp3("failed.mp3")
+    threading.Thread(target=play_mp3, args=("failed.mp3",)).start()
     
 keywords_to_functions = {
     "hello": greet,
@@ -50,4 +47,3 @@ def listen_and_trigger():
             print("Error occurred:", str(e))
 
 listen_and_trigger()
-
