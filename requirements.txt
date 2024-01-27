@@ -1,0 +1,6 @@
+py3-tts
+pyaudio
+numpy
+tensorflow
+seaborn
+matplotlib
