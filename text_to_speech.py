@@ -12,7 +12,7 @@ engine.setProperty('rate',newVoiceRate)
 for voice in voices:
     print(voice, voice.id)
     engine.setProperty('voice', voice.id)
-    engine.say("Bless you")
+    engine.say("Actually")
     engine.runAndWait()
     engine.stop()
 
