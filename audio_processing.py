@@ -1,43 +1,22 @@
-# import pandas as pd
-# import numpy as np
-# import matplotlib.pylab as plt
-# import seaborn as sns 
+from nrclex import NRCLex
 
-# from glob import glob 
+def detect_strongest_emotion(text):
+    # Create an NRCLex object for the input text
+    text_object = NRCLex(text)
 
-# import librosa
-# import librosa.display
-# import IPython.display as ipd
+    print('\n', text_object.affect_dict)
+    print('\n', text_object.raw_emotion_scores)
 
-# sns.set_theme(style="darkgrid")
+    # Get the dominant emotion
+    dominant_emotion = text_object.top_emotions[0][0]
 
-import pyaudio
-import numpy as np
-import tensorflow as tf
-from tensorflow.keras.models import load_model
+    return dominant_emotion
 
-# Load your pre-trained model
-model = load_model('your_model.h5')
+if __name__ == "__main__":
+    # Example text for emotion detection
+    sample_text = "This is whack i don't like you"
 
-# Configure audio stream
-chunk_size = 1024
-sample_format = pyaudio.paInt16
-channels = 1
-fs = 44100
+    # Perform emotion detection on the sample text
+    strongest_emotion = detect_strongest_emotion(sample_text)
 
-p = pyaudio.PyAudio()
-
-stream = p.open(format=sample_format,
-                channels=channels,
-                rate=fs,
-                frames_per_buffer=chunk_size,
-                input=True)
-
-# Placeholder for your real-time audio processing code
-while True:
-    data = np.frombuffer(stream.read(chunk_size), dtype=np.int16)
-    # Process data, extract features, and perform model inference
-    # ...
-    # Check if the model predicts the target sound, and take action accordingly
-    if prediction_above_threshold:
-        print("Sneezing detected!")
+    print(strongest_emotion)
